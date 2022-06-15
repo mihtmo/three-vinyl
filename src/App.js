@@ -20,6 +20,7 @@ const App = () => {
                     <ambientLight color={"lightyellow"}/>
                     <directionalLight position={[0, 5000, 0]} color={"lightyellow"}/>
                     <pointLight position={[300, 300, 500]} color={"lightyellow"}/>
+                    <pointLight position={[-300, 300, -500]} color={"lightyellow"}/>
                     <Room />
                     <Vinyl />
                     <RecordJacket />

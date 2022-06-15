@@ -5,24 +5,17 @@ import { useControl } from 'react-three-gui';
 
 const vinylGroup = 'Vinyl'
 
-const Vinyl = (props) => {
-    const opacity = useControl('Opacity', { group: vinylGroup, type: 'number', value: 1, max: 1});
-    const [hovered, hover] = useState(false);
+const VinylMain = (props) => {
     const mesh = useRef();
-    const [mapFront, mapBack, bumpVinyl] = useLoader(THREE.TextureLoader, 
-        ['./assets/id-lp-front.png', './assets/id-lp-back.png', './assets/vinyl-bump.png']);
+    const [mapFront, bumpVinyl] = useLoader(THREE.TextureLoader, 
+        ['./assets/id-lp-front.png', './assets/vinyl-bump.png']);
     mapFront.wrapS = mapFront.wrapT = THREE.RepeatWrapping
     mapFront.repeat.set(.97, .97)
     mapFront.center.set(.5, .5)
+    mapFront.rotation = Math.PI / 2
+    
     return (
         <mesh
-            onPointerOver={(event) => {
-                hover(true);
-                event.stopPropagation();
-            }}
-            onPointerOut={() => {
-                hover(false)
-            }}
             {...props}
             ref={mesh}
             position={[100, 0, -1.5]}
@@ -36,8 +29,8 @@ const Vinyl = (props) => {
             <meshStandardMaterial
                 map={mapFront}
                 roughness={0}
-                color={hovered ? 'pink' : '#ffffff' }
-                opacity={opacity}
+                color={props.hovered ? 'pink' : '#ffffff' }
+                opacity={props.opacity}
                 bumpMap={bumpVinyl}
                 bumpScale={.05}
                 transparent 
@@ -46,5 +39,56 @@ const Vinyl = (props) => {
         </mesh>
     );
 };
+
+const VinylBack = (props) => {
+    const mesh = useRef();
+    const [mapBack, bumpVinyl] = useLoader(THREE.TextureLoader, 
+        ['./assets/id-lp-back.png', './assets/vinyl-bump.png']);
+    mapBack.wrapS = mapBack.wrapT = THREE.RepeatWrapping
+    mapBack.repeat.set(.97, .97)
+    mapBack.center.set(.5, .5)
+    mapBack.rotation = -Math.PI
+    
+    return (
+        <mesh
+            {...props}
+            ref={mesh}
+            position={[100, 0, -2.1]}
+            rotation-x={ Math.PI }
+            renderOrder={1}
+        >
+            <circleGeometry 
+                args={[150, 150, 64, 7]} 
+                attach="geometry" 
+            />
+            <meshStandardMaterial
+                map={mapBack}
+                roughness={0}
+                color={props.hovered ? 'pink' : '#ffffff' }
+                opacity={props.opacity}
+                bumpMap={bumpVinyl}
+                bumpScale={.05}
+                transparent 
+
+            />
+        </mesh>
+    );
+}
+
+const Vinyl = () => {
+    const [hovered, hover] = useState(false)
+    const opacity = useControl('Opacity', { group: vinylGroup, type: 'number', max: 1, value: 1 });
+    return (
+        <group
+        onPointerOver={(event) => {
+            hover(true);
+            event.stopPropagation();
+        }}
+        onPointerOut={() => hover(false)}>
+            <VinylMain opacity={opacity} hovered={hovered}/>
+            <VinylBack opacity={opacity} hovered={hovered}/>
+        </group>
+    )
+}
 
 export default Vinyl;
