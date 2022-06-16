@@ -19,6 +19,7 @@ const VinylMain = (props) => {
             position={[100, 0, -1.5]}
             rotation-x={ Math.PI / 2 }
             renderOrder={1}
+            opacity={props.opacity}
         >
             <cylinderGeometry 
                 args={[150, 150, 1, 64, 3]} 
@@ -27,11 +28,11 @@ const VinylMain = (props) => {
             <meshStandardMaterial
                 map={labelFront}
                 roughness={.1}
-                color={props.hovered ? 'pink' : '#000000' }
+                color={props.hovered ? 'pink' : '#ffffff' }
                 opacity={props.opacity}
                 bumpMap={bumpVinyl}
                 bumpScale={.03}
-
+                transparent
 
             />
         </mesh>
@@ -60,7 +61,7 @@ const VinylBack = (props) => {
             <meshStandardMaterial
                 map={labelBack}
                 roughness={.1}
-                color={props.hovered ? 'pink' : '#000000' }
+                color={props.hovered ? 'pink' : '#ffffff' }
                 opacity={props.opacity}
                 bumpMap={bumpVinyl}
                 bumpScale={.03}
