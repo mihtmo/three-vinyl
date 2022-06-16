@@ -13,14 +13,14 @@ const App = () => {
         <Controls.Provider>
             <div className="record-canvas">
                 <Controls.Canvas className="webgl-canvas" 
-                    camera={{ fov: 75, position: [0, 0, 450], near: 1, far: 6000 }}>
-                    <color attach="background" args={["black"]} />
-                    <fog attach="fog" args={["black", 1000, 5000]} />
+                    camera={{ fov: 75, position: [0, 0, 450], near: 1, far: 8000 }}>
+                    <color attach="background" args={["#464655"]} />
+                    <fog attach="fog" args={["#464655", 300, 2000]} />
                     <OrbitControls />
-                    <ambientLight color={"lightyellow"}/>
-                    <directionalLight position={[0, 5000, 0]} color={"lightyellow"}/>
-                    <pointLight position={[300, 300, 500]} color={"lightyellow"}/>
-                    <pointLight position={[-300, 300, -500]} color={"lightyellow"}/>
+                    <ambientLight color={"lightyellow"} intensity={.2}/>
+                    <directionalLight position={[-500, 2000, -2000]} color={"lightyellow"} intensity={1}/>
+                    <pointLight position={[300, 300, 500]} color={"lightyellow"} intensity={1}/>
+                    <pointLight position={[-300, 300, -500]} color={"lightyellow"} intensity={.8}/>
                     <Room />
                     <Vinyl />
                     <RecordJacket />

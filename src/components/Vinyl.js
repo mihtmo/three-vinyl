@@ -7,12 +7,10 @@ const vinylGroup = 'Vinyl'
 
 const VinylMain = (props) => {
     const mesh = useRef();
-    const [mapFront, bumpVinyl] = useLoader(THREE.TextureLoader, 
-        ['./assets/id-lp-front.png', './assets/vinyl-bump.png']);
-    mapFront.wrapS = mapFront.wrapT = THREE.RepeatWrapping
-    mapFront.repeat.set(.97, .97)
-    mapFront.center.set(.5, .5)
-    mapFront.rotation = Math.PI / 2
+    const [labelFront, bumpVinyl] = useLoader(THREE.TextureLoader, 
+        ['./assets/id-label-front.png', './assets/vinyl-bump.png']);
+    labelFront.center.set(.5, .5)
+    labelFront.rotation = Math.PI / 2
     
     return (
         <mesh
@@ -27,13 +25,13 @@ const VinylMain = (props) => {
                 attach="geometry" 
             />
             <meshStandardMaterial
-                map={mapFront}
-                roughness={0}
-                color={props.hovered ? 'pink' : '#ffffff' }
+                map={labelFront}
+                roughness={.1}
+                color={props.hovered ? 'pink' : '#000000' }
                 opacity={props.opacity}
                 bumpMap={bumpVinyl}
-                bumpScale={.05}
-                transparent 
+                bumpScale={.03}
+
 
             />
         </mesh>
@@ -42,12 +40,10 @@ const VinylMain = (props) => {
 
 const VinylBack = (props) => {
     const mesh = useRef();
-    const [mapBack, bumpVinyl] = useLoader(THREE.TextureLoader, 
-        ['./assets/id-lp-back.png', './assets/vinyl-bump.png']);
-    mapBack.wrapS = mapBack.wrapT = THREE.RepeatWrapping
-    mapBack.repeat.set(.97, .97)
-    mapBack.center.set(.5, .5)
-    mapBack.rotation = -Math.PI
+    const [labelBack, bumpVinyl] = useLoader(THREE.TextureLoader, 
+        ['./assets/id-label-back.png', './assets/vinyl-bump.png']);
+    labelBack.center.set(.5, .5)
+    labelBack.rotation = -Math.PI
     
     return (
         <mesh
@@ -62,12 +58,12 @@ const VinylBack = (props) => {
                 attach="geometry" 
             />
             <meshStandardMaterial
-                map={mapBack}
-                roughness={0}
-                color={props.hovered ? 'pink' : '#ffffff' }
+                map={labelBack}
+                roughness={.1}
+                color={props.hovered ? 'pink' : '#000000' }
                 opacity={props.opacity}
                 bumpMap={bumpVinyl}
-                bumpScale={.05}
+                bumpScale={.03}
                 transparent 
 
             />
