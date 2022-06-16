@@ -6,6 +6,7 @@ import Vinyl from './components/Vinyl'
 import { Controls } from 'react-three-gui'
 import { OrbitControls } from '@react-three/drei';
 import Room from './components/Room';
+import Mote from './components/Mote';
 
   
 const App = () => {
@@ -23,9 +24,10 @@ const App = () => {
                     <pointLight position={[-300, 300, -500]} color={"lightyellow"} intensity={.8}/>
                     <Room />
                     <Vinyl />
+                    <Mote />
                     <RecordJacket />
                 </Controls.Canvas>
-                <Controls title="Record Controls" />
+                <Controls title="Record Controls" defaultClosedGroups={["Vinyl", "Jacket"]}/>
             </div>
         </Controls.Provider>
     );

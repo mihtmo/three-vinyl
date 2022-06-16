@@ -82,8 +82,13 @@ const JacketSide = props => {
 const RecordJacket = () => {
     const [hovered, hover] = useState(false)
     const opacity = useControl('Opacity', { group: jacketGroup, type: 'number', max: 1, value: 1 });
+    const scale = useControl('Scale-All', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
+    const scaleX = useControl('Scale-X', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
+    const scaleY = useControl('Scale-Y', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
+    const scaleZ = useControl('Scale-Z', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
     return (
         <group 
+        scale={[scaleX * scale, scaleY * scale, scaleZ * scale]}
         onPointerOver={(event) => {
             hover(true);
             event.stopPropagation();
