@@ -1,33 +1,41 @@
 import './App.css';
 import React, { useContext } from "react";
 import { Canvas } from '@react-three/fiber'
-import RecordJacket from './components/RecordJacket';
+import {RecordJacket } from './components/RecordJacket';
 import Vinyl from './components/Vinyl'
 import { Controls } from 'react-three-gui'
-import { OrbitControls } from '@react-three/drei';
+import { PointerLockControls, FirstPersonControls, FlyControls, OrbitControls } from '@react-three/drei';
 import Room from './components/Room';
-import Mote from './components/Mote';
+import { Mote, RandomMote } from './components/Mote';
+import Weatherblanket from './components/Weatherblanket';
+import * as THREE from 'three';
+import { Player } from './components/Player';
 
-  
+
+
 const App = () => {
+
     return (
         <Controls.Provider>
             <div className="record-canvas">
                 <Controls.Canvas className="webgl-canvas" 
-                    camera={{ fov: 75, position: [0, 0, 450], near: 1, far: 8000 }}>
-                    <color attach="background" args={["#464655"]} />
-                    <fog attach="fog" args={["#464655", 300, 2000]} />
-                    <OrbitControls />
-                    <ambientLight color={"lightyellow"} intensity={.2}/>
-                    <directionalLight position={[-500, 2000, -2000]} color={"lightyellow"} intensity={1}/>
-                    <pointLight position={[300, 300, 500]} color={"lightyellow"} intensity={1}/>
-                    <pointLight position={[-300, 300, -500]} color={"lightyellow"} intensity={.8}/>
+                    camera={{ fov: 75, position: [0, 0, 600], near: 1, far: 8000 }}
+                    shadows={{ type: "BasicShadowMap" }}>
+                    <color attach="background" args={["#565665"]} />
+                    <fog attach="fog" args={["#565665", 1000, 2000]} />
+                    <OrbitControls lookSpeed={0.1} movementSpeed={1000}/>
+                    <ambientLight color={"lightyellow"} intensity={.3}/>
+                    <directionalLight castShadow={true} position={[-500, 2000, -2000]} color={"lightyellow"} intensity={.8}/>
+                    <pointLight castShadow={true} position={[300, 100, 500]} color={"lightyellow"} intensity={.8}/>
+                    <pointLight castShadow={true} position={[-200, 100, 500]} color={"lightyellow"} intensity={.8}/>
+                    <pointLight castShadow={true} position={[-300, 100, -500]} color={"lightyellow"} intensity={.2}/>
                     <Room />
                     <Vinyl />
-                    <Mote />
                     <RecordJacket />
+                    {/* <RandomMote /> */}
+                    <Weatherblanket />
                 </Controls.Canvas>
-                <Controls title="Record Controls" defaultClosedGroups={["Vinyl", "Jacket"]}/>
+                <Controls title="Record Controls" defaultClosedGroups={["Vinyl", "Jacket", "Weatherblanket"]}/>
             </div>
         </Controls.Provider>
     );

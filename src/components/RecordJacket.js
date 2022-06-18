@@ -28,6 +28,7 @@ const JacketFront = props => {
                 roughness={0.4}
                 color={props.hovered ? 'pink' : '#ffffff' }
                 opacity={props.opacity}
+                visible={props.visible}
                 transparent
             />
         </mesh>
@@ -44,7 +45,7 @@ const JacketBack = props => {
             {...props} 
             ref={mesh}
             position={[0, 0, -3]}
-            renderOrder={2}>
+            renderOrder={1}>
             <boxGeometry 
                 args={faceGeo} 
                 attach="geometry" />
@@ -53,6 +54,7 @@ const JacketBack = props => {
                 roughness={0.5}
                 color={props.hovered ? 'pink' : '#ffffff' }
                 opacity={props.opacity}
+                visible={props.visible}
                 transparent
             />
         </mesh>
@@ -64,7 +66,8 @@ const JacketSide = props => {
     return (
         <mesh
             {...props}
-            ref={mesh}>
+            ref={mesh}
+            renderOrder={1}>
             <boxGeometry 
                 args={sideGeo} 
                 attach="geometry" />
@@ -72,6 +75,7 @@ const JacketSide = props => {
                 color={props.hovered ? 'pink' : "#b28d8e" }
                 roughness={0.5}
                 opacity={props.opacity}
+                visible={props.visible}
                 transparent
             />
         </mesh>
@@ -79,13 +83,15 @@ const JacketSide = props => {
 };
 
 // Group Components
-const RecordJacket = () => {
+const RecordJacket = (props) => {
     const [hovered, hover] = useState(false)
+    const visible = useControl('Visible', { group: jacketGroup, type: 'boolean', value: true});
     const opacity = useControl('Opacity', { group: jacketGroup, type: 'number', max: 1, value: 1 });
     const scale = useControl('Scale-All', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
     const scaleX = useControl('Scale-X', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
     const scaleY = useControl('Scale-Y', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
     const scaleZ = useControl('Scale-Z', { group: jacketGroup, type: 'number', min: 1, max: 5, value: 1});
+    
     return (
         <group 
         scale={[scaleX * scale, scaleY * scale, scaleZ * scale]}
@@ -94,14 +100,15 @@ const RecordJacket = () => {
             event.stopPropagation();
         }}
         onPointerOut={() => hover(false)}
-        opacity={.2}>
-            <JacketFront className="jacket-front" opacity={opacity} hovered={hovered} />
-            <JacketBack className="jacket-back" opacity={opacity} hovered={hovered} />
-            <JacketSide className="jacket-side" opacity={opacity} hovered={hovered} position={[-156.65, 0, -1.5]} rotation-z={Math.PI / 2}/>
-            <JacketSide className="jacket-bottom" opacity={opacity} hovered={hovered} position={[0, -156.65, -1.5]} />
-            <JacketSide className="jacket_top" opacity={opacity} hovered={hovered} position={[0, 156.65, -1.5]} />
+        opacity={.2}
+        position={props.position}>
+            <JacketFront visible={visible} className="jacket-front" opacity={opacity} hovered={hovered} />
+            <JacketBack visible={visible} className="jacket-back" opacity={opacity} hovered={hovered} />
+            <JacketSide visible={visible} className="jacket-side" opacity={opacity} hovered={hovered} position={[-156.65, 0, -1.5]} rotation-z={Math.PI / 2}/>
+            <JacketSide visible={visible} className="jacket-bottom" opacity={opacity} hovered={hovered} position={[0, -156.65, -1.5]} />
+            <JacketSide visible={visible} className="jacket_top" opacity={opacity} hovered={hovered} position={[0, 156.65, -1.5]} />
         </group>
     );
 };
 
-export default RecordJacket;
+export { RecordJacket };

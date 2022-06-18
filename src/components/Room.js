@@ -4,7 +4,6 @@ import { useLoader } from '@react-three/fiber';
 
 
 const WoodFloor = (props) => {
-    console.log("or is it here?")
     const mesh = useRef();
     const [mapColor, mapAO, mapReflect, mapBump] = useLoader(THREE.TextureLoader, 
         ['./assets/woodfloor/woodfloor-color.jpg', './assets/woodfloor/woodfloor-ambient.jpg','./assets/woodfloor/woodfloor-gloss.jpg', './assets/woodfloor/woodfloor-bump.jpg'])
@@ -19,6 +18,7 @@ const WoodFloor = (props) => {
     return (
         <mesh 
         {...props}
+        receiveShadow={true}
         ref={mesh}>
         <planeGeometry
             args={[20000, 20000]} />
@@ -33,12 +33,12 @@ const WoodFloor = (props) => {
 }
 
 const Wall = (props) => {
-    console.log('is it here?')
     const wallmesh = useRef();
     return (
         <mesh 
         {...props}
-        ref={wallmesh}>
+        ref={wallmesh}
+        receiveShadow={true}>
         <planeGeometry
             args={[12000, 12000]} />
         <meshStandardMaterial
@@ -49,7 +49,6 @@ const Wall = (props) => {
 }
 
 const Room = () => {
-    console.log('where is this loop')
     return (
         <group>
             <WoodFloor className="floor" position={[0 , -500, 0]} rotation-x={-Math.PI / 2}/>

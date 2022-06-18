@@ -1,7 +1,8 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useControl } from 'react-three-gui';
+
 
 const vinylGroup = 'Vinyl'
 
@@ -20,7 +21,7 @@ const VinylMain = (props) => {
             rotation-x={ Math.PI / 2 }
             renderOrder={1}
             opacity={props.opacity}
-            scale={[props.scaleX * props.scale, 1, props.scaleY * props.scale]}
+            scale={[props.scale, 1, props.scale]}
         >
             <cylinderGeometry 
                 args={[150, 150, 1, 64, 3]} 
@@ -33,6 +34,7 @@ const VinylMain = (props) => {
                 opacity={props.opacity}
                 bumpMap={bumpVinyl}
                 bumpScale={.03}
+                visible={props.visible}
                 transparent
 
             />
@@ -53,8 +55,8 @@ const VinylBack = (props) => {
             ref={mesh}
             position={[100, 0, -2.1]}
             rotation-x={ Math.PI }
-            renderOrder={1}
-            scale={[props.scaleX * props.scale, props.scaleY * props.scale, 1, 1]}
+            renderOrder={2}
+            scale={[props.scale, props.scale, 1, 1]}
         >
             <circleGeometry 
                 args={[150, 150, 64, 7]} 
@@ -67,30 +69,33 @@ const VinylBack = (props) => {
                 opacity={props.opacity}
                 bumpMap={bumpVinyl}
                 bumpScale={.03}
-                transparent 
+                visible={props.visible}
+                transparent
 
             />
         </mesh>
     );
 }
 
-const Vinyl = () => {
+const Vinyl = (props) => {
+    const group = useRef()
     const [hovered, hover] = useState(false)
+    const visible = useControl('Visible', { group: vinylGroup, type: 'boolean', value: true});
     const opacity = useControl('Opacity', { group: vinylGroup, type: 'number', max: 1, value: 1 });
     const scale = useControl('Scale-All', { group: vinylGroup, type: 'number', min: 1, max: 5, value: 1});
-    const scaleX = useControl('Scale-X', { group: vinylGroup, type: 'number', min: 1, max: 5, value: 1});
-    const scaleY = useControl('Scale-Y', { group: vinylGroup, type: 'number', min: 1, max: 5, value: 1});
-    const scaleZ = useControl('Scale-Z', { group: vinylGroup, type: 'number', min: 1, max: 5, value: 1});
+    
     return (
         <group
-        scale={[scaleX * scale, scaleY * scale, scaleZ * scale]}
+        ref={group}
+        scale={scale}
         onPointerOver={(event) => {
             hover(true);
             event.stopPropagation();
         }}
-        onPointerOut={() => hover(false)}>
-            <VinylMain opacity={opacity} hovered={hovered} scale={scale} scaleX={scaleX} scaleY={scaleY} />
-            <VinylBack opacity={opacity} hovered={hovered} scale={scale} scaleX={scaleX} scaleY={scaleY} />
+        onPointerOut={() => hover(false)}
+        position={props.position}>
+            <VinylMain visible={visible} opacity={opacity} hovered={hovered} scale={scale} />
+            <VinylBack visible={visible} opacity={opacity} hovered={hovered} scale={scale} />
         </group>
     )
 }
