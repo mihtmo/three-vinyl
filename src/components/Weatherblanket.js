@@ -1,29 +1,48 @@
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import { useControl } from "react-three-gui"
 import weatherData from '../data/weatherdata.json'
 import heatColorScale from "../data/colorscale"
-import { GradientTexture } from "@react-three/drei"
+import { GradientTexture, Html } from "@react-three/drei"
+import './Weatherblanket.css'
 
 
 const blanketGroup = 'Weatherblanket'
 
 const Weatherbar = (props) => {
     const mesh = useRef()
+    const [hovered, hover] = useState(false)
     return (
         <mesh
             ref={mesh}
+            onPointerOver={(event) => {
+                hover(true);
+                event.stopPropagation();
+            }}
+            onPointerOut={() => hover(false)}
             position={props.position}
             castShadow={true}
             renderOrder={0}
+            scale={hovered ? [2, 1, 2] : 1}
         >
-            <cylinderGeometry
-                args={props.shape} 
+            {hovered && props.visible && (
+                <Html scaleFactor={10}>
+                    <div className="tooltip">
+                        <p className="tooltip-header">Date: {props.date}</p>
+                        High Temperature: {props.high}&deg;F
+                        <br />
+                        Low Temperature: {props.low}&deg;F
+                    </div>
+                </Html>
+            )}
+                <cylinderGeometry
+                    args={props.shape} 
             />
             <meshStandardMaterial
-                roughness={.7}
+                roughness={0}
                 opacity={props.opacity}
                 transparent 
                 visible={props.visible}
+                color={hovered ? 'yellow' : '#ffffff' }
             >
                 <GradientTexture 
                     stops={[0, 1]} // As many stops as you want
@@ -52,10 +71,11 @@ const Weatherblanket = () => {
         const positionX = (-(count * width) / 2) + (i * width);
         const positionY = (((high-low)/2) + low * 15) - 400;
         const positionZ = -100;
+        const date = (weatherData[i]["date"]).toLocaleString('default', { month: 'long' })
  
         
         arr.push(
-            <Weatherbar visible={visible} key={weatherData[i]["date"]} highColor={highColor} lowColor={lowColor} opacity={opacity} shape={[(width - 5)/2, (width - 5)/2, height, 16, 1]} position={[positionX, positionY, positionZ]}/>
+            <Weatherbar date={date} high={high} low={low} visible={visible} key={weatherData[i]["date"]} highColor={highColor} lowColor={lowColor} opacity={opacity} shape={[(width - 5)/2, (width - 5)/2, height, 16, 1]} position={[positionX, positionY, positionZ]}/>
         );
     
     }

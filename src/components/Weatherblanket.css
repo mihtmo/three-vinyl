@@ -1,0 +1,14 @@
+.tooltip {
+    width: fit-content;
+    height: fit-content;
+    padding: 15px;
+    background-color: beige;
+    white-space: nowrap;
+    font-family: 'montserrat'
+}
+
+.tooltip-header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: -3px;
+}
