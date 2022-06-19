@@ -20,7 +20,7 @@ const Weatherbar = (props) => {
                     event.stopPropagation();
                 }}
                 onPointerOut={() => hover(false)}
-                position={props.heatPosition}
+                position={[props.positionX, (((props.heatMidpoint)/2) + props.low * props.exaggerate) - 300, props.positionZ]}
                 castShadow={true}
                 renderOrder={0}
                 scale={hovered ? [2, 1, 2] : 1}
@@ -38,7 +38,7 @@ const Weatherbar = (props) => {
                     </Html>
                 )}
                     <cylinderGeometry
-                        args={props.heatShape} 
+                        args={[props.radius, props.radius, props.heatHeight * props.exaggerate, 16, 1]} 
                 />
                 <meshStandardMaterial
                     roughness={0}
@@ -62,13 +62,13 @@ const Weatherbar = (props) => {
                     event.stopPropagation();
                 }}
                 onPointerOut={() => hover(false)}
-                position={props.rainPosition}
+                position={[props.positionX, (-500 + (props.rainHeight * props.exaggerate / 2)), props.positionZ]}
                 castShadow={true}
                 renderOrder={0}
                 scale={hovered ? [2, 1, 2] : 1}
                 >
                     <cylinderGeometry
-                        args={props.rainShape} 
+                        args={[props.radius, props.radius, props.rainHeight * props.exaggerate, 16, 1]} 
                 />
                 <meshStandardMaterial
                     roughness={0}
@@ -87,6 +87,7 @@ const Weatherbar = (props) => {
 const Weatherblanket = () => {
     const visible = useControl('Visible', { group: blanketGroup, type: 'boolean', value: true});
     const opacity = useControl('Opacity', { group: blanketGroup, type: 'number', max: 1, value: 1 });
+    const exaggerate = useControl('Exaggerate', { group: blanketGroup, type: 'number', max: 20, value: 15 });
     const count = useControl('Days of the Year', { group: blanketGroup, type: 'number', min: 0, max: weatherData.length, value: weatherData.length});
     const arr = [];
     
@@ -97,17 +98,32 @@ const Weatherblanket = () => {
         const precip = weatherData[i]["rain"];
         const lowColor = heatColorScale(low)
         const highColor = heatColorScale(high)
-        const heatHeight = (high-low) * 15
-        const rainHeight = precip * 100
+        const heatHeight = (high-low)
+        const rainHeight = precip * 10
         const positionX = (-(count * width) / 2) + (i * width);
-        const heatPositionY = (((high-low)/2) + low * 15) - 400;
-        const rainPositionY = -500 + (rainHeight / 2)
         const positionZ = -100;
+        const heatMidpoint = high - low
         const date = (weatherData[i]["date"]).toLocaleString('default', { month: 'long' })
  
         
         arr.push(
-            <Weatherbar precip={precip} date={date} high={high} low={low} visible={visible} key={weatherData[i]["date"]} highColor={highColor} lowColor={lowColor} opacity={opacity} heatShape={[(width - 5)/2, (width - 5)/2, heatHeight, 16, 1]} rainShape={[(width - 5)/2, (width - 5)/2, rainHeight, 16, 1]} rainPosition={[positionX, rainPositionY, positionZ]} heatPosition={[positionX, heatPositionY, positionZ]}/>
+            <Weatherbar
+                        exaggerate={exaggerate}
+                        heatMidpoint={heatMidpoint}
+                        precip={precip} 
+                        date={date} 
+                        high={high} 
+                        low={low} 
+                        visible={visible} 
+                        key={weatherData[i]["date"]} 
+                        highColor={highColor} 
+                        lowColor={lowColor} 
+                        opacity={opacity} 
+                        radius={(width - 5)/2}
+                        heatHeight={heatHeight}
+                        rainHeight={rainHeight}
+                        positionX={positionX}
+                        positionZ={positionZ} />
         );
     
     }

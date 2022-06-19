@@ -9,7 +9,6 @@ import Room from './components/Room';
 import { Mote, RandomMote } from './components/Mote';
 import Weatherblanket from './components/Weatherblanket';
 import * as THREE from 'three';
-import { Player } from './components/Player';
 
 
 
