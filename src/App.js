@@ -35,7 +35,7 @@ const App = () => {
                     {/* <RandomMote /> */}
                     <Weatherblanket />
                 </Controls.Canvas>
-                <Controls title="Record Controls" defaultClosedGroups={["Vinyl", "Jacket", "Weatherblanket"]}/>
+                <Controls title="Controls" defaultClosedGroups={["Vinyl", "Jacket", "Weatherblanket"]}/>
             </div>
         </Controls.Provider>
     );
