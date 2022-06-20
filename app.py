@@ -1,8 +1,13 @@
 import psycopg2
 import os
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='./public')
+
+@app.route("/")
+def frontpage():
+    # Show front page
+    return render_template("index.html")
 
 @app.route('/api', methods=['GET'])
 def index():
