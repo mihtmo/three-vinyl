@@ -1,6 +1,5 @@
 import { useRef, useState } from "react"
 import { useControl } from "react-three-gui"
-import weatherData from '../data/weatherdata.json'
 import heatColorScale from "../data/colorscale"
 import { GradientTexture, Html } from "@react-three/drei"
 import './Weatherblanket.css'
@@ -54,7 +53,7 @@ const Weatherbar = (props) => {
                     />
                 </meshStandardMaterial>
             </mesh>
-            {props.precip !== 0 && (
+            {props.precip !== "0.00" && (
                 <mesh
                 ref={mesh}
                 onPointerOver={(event) => {
@@ -88,15 +87,14 @@ const Weatherblanket = (props) => {
     const visible = useControl('Visible', { group: blanketGroup, type: 'boolean', value: true});
     const opacity = useControl('Opacity', { group: blanketGroup, type: 'number', max: 1, value: 1 });
     const exaggerate = useControl('Exaggerate', { group: blanketGroup, type: 'number', max: 20, value: 15 });
-    const count = useControl('Days of the Year', { group: blanketGroup, type: 'number', min: 0, max: weatherData.length, value: weatherData.length});
+    const count = useControl('Days of the Year', { group: blanketGroup, type: 'number', min: 0, max: props.weatherData.length, value: props.weatherData.length});
     const arr = [];
-    console.log(props.weatherData);
     
     for (let i = 0; i < count; i++) {
         const width = 14;
-        const low = weatherData[i]["temp_lo"];
-        const high= weatherData[i]["temp_hi"];
-        const precip = weatherData[i]["rain"];
+        const low = props.weatherData[i][2];
+        const high= props.weatherData[i][1];
+        const precip = props.weatherData[i][3];
         const lowColor = heatColorScale(low)
         const highColor = heatColorScale(high)
         const heatHeight = (high-low)
@@ -104,7 +102,7 @@ const Weatherblanket = (props) => {
         const positionX = (-(count * width) / 2) + (i * width);
         const positionZ = -100;
         const heatMidpoint = high - low
-        const date = (weatherData[i]["date"]).toLocaleString('default', { month: 'long' })
+        const date = (props.weatherData[i][0]).toLocaleString('default', { month: 'long' })
  
         
         arr.push(
@@ -116,7 +114,7 @@ const Weatherblanket = (props) => {
                         high={high} 
                         low={low} 
                         visible={visible} 
-                        key={weatherData[i]["date"]} 
+                        key={props.weatherData[i][0]} 
                         highColor={highColor} 
                         lowColor={lowColor} 
                         opacity={opacity} 

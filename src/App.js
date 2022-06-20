@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {RecordJacket } from './components/RecordJacket';
 import Vinyl from './components/Vinyl'
 import { Controls } from 'react-three-gui'
@@ -13,25 +13,31 @@ import axios from 'axios';
 
 const App = () => {
 
-    const [weatherData, setWeatherData] = useState(null)
+    const [isLoading, setLoading] = useState(true);
+    const [weatherData, setWeatherData] = useState()
 
     useEffect(() => {
             axios({
                 method: "GET",
-                url: "/"
+                url: "/api"
             })
             .then((response) => {
-                const res = response.getData
-                setWeatherData(({
-                    res
-                }))
+                const res = response.data
+                setWeatherData(res)
+                setLoading(false);
             }).catch((error) => {
                 if (error.response) {
                     console.log(error.response)
                     console.log(error.response.status)
                     console.log(error.response.headers)
                 }
-            })}, [])
+            })}, []);
+
+    if (isLoading) {
+        return <div className="App">Loading...</div>;
+    }
+
+    console.log(weatherData)
 
     return (
         <Controls.Provider>
