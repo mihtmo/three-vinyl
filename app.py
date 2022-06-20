@@ -2,7 +2,7 @@ import psycopg2
 import os
 from flask import Flask, jsonify, render_template
 
-app = Flask(__name__, static_folder='./frontend/build', static_url_path='')
+app = Flask(__name__, template_folder='./frontend/build')
 
 @app.route("/")
 def frontpage():
