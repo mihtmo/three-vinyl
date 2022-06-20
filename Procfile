@@ -1,1 +1,1 @@
-web: gunicorn app:three-vinyl
+web: gunicorn app:app
