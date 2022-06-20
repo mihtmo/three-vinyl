@@ -1,8 +1,9 @@
 import psycopg2
 import os
 from flask import Flask, jsonify, render_template
+from flask_cors import CORS, cross_origin
 
-app = Flask(__name__, template_folder='./public')
+app = Flask(__name__, static_folder='./frontend/build', static_url_path='')
 
 @app.route("/")
 def frontpage():
@@ -10,6 +11,8 @@ def frontpage():
     return render_template("index.html")
 
 @app.route('/api', methods=['GET'])
+CORS(app)
+@cross_origin()
 def index():
     
     # Establish connection with Heroku PostgreSQL
