@@ -84,12 +84,13 @@ const Weatherbar = (props) => {
     )
 }
 
-const Weatherblanket = () => {
+const Weatherblanket = (props) => {
     const visible = useControl('Visible', { group: blanketGroup, type: 'boolean', value: true});
     const opacity = useControl('Opacity', { group: blanketGroup, type: 'number', max: 1, value: 1 });
     const exaggerate = useControl('Exaggerate', { group: blanketGroup, type: 'number', max: 20, value: 15 });
     const count = useControl('Days of the Year', { group: blanketGroup, type: 'number', min: 0, max: weatherData.length, value: weatherData.length});
     const arr = [];
+    console.log(props.weatherData);
     
     for (let i = 0; i < count; i++) {
         const width = 14;
