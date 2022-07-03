@@ -52,10 +52,10 @@ const Room = () => {
     return (
         <group>
             <WoodFloor className="floor" position={[0 , -500, 0]} rotation-x={-Math.PI / 2}/>
-            <Wall className="left-wall" position={[-6000, 4000, 0]} rotation-y={Math.PI / 2} />
+            {/* <Wall className="left-wall" position={[-6000, 4000, 0]} rotation-y={Math.PI / 2} />
             <Wall className="right-wall" position={[6000, 4000, 0]} rotation-y={-Math.PI / 2} />
             <Wall className="back-wall" position={[0, 4000, -6000]} />
-            <Wall className="front-wall" position={[0, 4000, 6000]} rotation-y={Math.PI} />
+            <Wall className="front-wall" position={[0, 4000, 6000]} rotation-y={Math.PI} /> */}
         </group>
     );
 };

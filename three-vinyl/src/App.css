@@ -5,3 +5,28 @@
   border: none;
   margin: none;
 }
+
+.myGUI {
+  display: none;
+  height: 100px;
+  width: 400px;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  background-color: white;
+  border-radius: 5px;
+  font-family: Montserrat;
+  padding: 10px;
+}
+
+#x-space-slider {
+  display: flex;
+  flex-flow: row; /* or 'row' and change the order of your html elements */
+  align-items: center;
+  justify-content: flex;
+  width: 100%;
+}
+
+.flex-item {
+  margin: 10px;
+}

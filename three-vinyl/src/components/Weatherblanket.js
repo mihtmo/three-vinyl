@@ -32,7 +32,7 @@ const Weatherbar = (props) => {
                             <br />
                             Low Temperature: {props.low}&deg;F
                             <br />
-                            Precipication: {props.precip}"
+                            Precipitation: {props.precip}"
                         </div>
                     </Html>
                 )}
@@ -99,7 +99,7 @@ const Weatherblanket = (props) => {
         const highColor = heatColorScale(high)
         const heatHeight = (high-low)
         const rainHeight = precip * 10
-        const positionX = (-(count * width) / 2) + (i * width);
+        const positionX = ((-(count * width) / 2) + (i * width)) * props.xSpace;
         const positionZ = -100;
         const heatMidpoint = high - low
         const date = (props.weatherData[i][0]).toLocaleString('default', { month: 'long' })
@@ -122,7 +122,8 @@ const Weatherblanket = (props) => {
                         heatHeight={heatHeight}
                         rainHeight={rainHeight}
                         positionX={positionX}
-                        positionZ={positionZ} />
+                        positionZ={positionZ} 
+                        xSpace={props.xSpace}/>
         );
     
     }
