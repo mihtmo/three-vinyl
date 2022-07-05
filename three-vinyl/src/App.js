@@ -69,7 +69,7 @@ const App = () => {
                         <label className="flex-item" htmlFor="x-space"> {xSpaceValue} </label>
                     </div>
                 </div>
-                <Controls title="Controls" defaultClosedGroups={["Vinyl", "Jacket", "Weatherblanket"]}/>
+                <Controls title="Controls" defaultClosedGroups={["Vinyl", "Jacket"]}/>
             </div>
         </Controls.Provider>
     );
